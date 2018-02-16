@@ -1,0 +1,178 @@
+
+
+
+    <title>Percona apt Repository &mdash; Percona Playback Documentation</title>
+    
+  <head>
+    
+    
+    
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Percona Playback Documentation" href="../index.html" />
+    <link rel="up" title="Installing Playback from Binaries" href="../installation.html" />
+    <link rel="next" title="Percona yum Repository" href="yum_repo.html" />
+    <link rel="prev" title="Installing Playback from Binaries" href="../installation.html" /> 
+  </head>
+  <body>
+    <div class="container">  
+
+    <div class="document row">
+      <div class="documentwrapper col-md-9 col-md-push-3">
+    <div class="related row">
+      
+      <ul class="nav nav-pills">
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="yum_repo.html" title="Percona yum Repository"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="../installation.html" title="Installing Playback from Binaries"
+             accesskey="P">previous</a></li>
+        <li><a href="../index.html">Percona Playback Docs</a></li>
+          <li><a href="../installation.html" accesskey="U">Installing Playback from Binaries</a></li> 
+      </ul>
+    </div>
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="percona-apt-repository">
+<h1>Percona <strong class="program">apt</strong> Repository<a class="headerlink" href="#percona-apt-repository" title="Permalink to this headline">¶</a></h1>
+<p><em>Debian</em> and <em>Ubuntu</em> packages from <em>Percona</em> are signed with a key. Before using the repository, you should add the key to <strong class="program">apt</strong>. To do that, run the following commands:</p>
+<div class="highlight-python"><pre>$ gpg --keyserver  hkp://keys.gnupg.net --recv-keys 1C4CBDCDCD2EFD2A
+... [some output removed] ...
+gpg:               imported: 1
+
+$ gpg -a --export CD2EFD2A | sudo apt-key add -</pre>
+</div>
+<p>Add this to <tt class="file docutils literal"><span class="pre">/etc/apt/sources.list</span></tt>, replacing <tt class="docutils literal"><span class="pre">VERSION</span></tt> with the name of your distribution:</p>
+<div class="highlight-python"><pre>deb http://repo.percona.com/apt VERSION main
+deb-src http://repo.percona.com/apt VERSION main</pre>
+</div>
+<p>Remember to update the local cache:</p>
+<div class="highlight-python"><pre>$ apt-get update</pre>
+</div>
+<div class="section" id="supported-architectures">
+<h2>Supported Architectures<a class="headerlink" href="#supported-architectures" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li>x86_64 (also known as amd64)</li>
+<li>x86</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="supported-releases">
+<h2>Supported Releases<a class="headerlink" href="#supported-releases" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="debian">
+<h3>Debian<a class="headerlink" href="#debian" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li>6.0 (squeeze)</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="ubuntu">
+<h3>Ubuntu<a class="headerlink" href="#ubuntu" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li>10.04LTS (lucid)</li>
+<li>12.04LTS (precise)</li>
+<li>12.10 (quantal)</li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="experimental-repository">
+<h2>Experimental Repository<a class="headerlink" href="#experimental-repository" title="Permalink to this headline">¶</a></h2>
+<p>Percona now offers experimental repository for beta releases. To enable it add this to <tt class="file docutils literal"><span class="pre">/etc/apt/sources.list</span></tt>, replacing <tt class="docutils literal"><span class="pre">VERSION</span></tt> with the name of your distribution:</p>
+<div class="highlight-python"><pre>deb http://repo.percona.com/apt VERSION main experimental
+deb-src http://repo.percona.com/apt VERSION main experimental</pre>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+    <div class="related row">
+      
+      <ul class="nav nav-pills">
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="yum_repo.html" title="Percona yum Repository"
+             >next</a></li>
+        <li class="right" >
+          <a href="../installation.html" title="Installing Playback from Binaries"
+             >previous</a></li>
+        <li><a href="../index.html">Percona Playback Docs</a></li>
+          <li><a href="../installation.html" >Installing Playback from Binaries</a></li> 
+      </ul>
+    </div>
+      </div>
+      <div class="sphinxsidebar  col-md-3 col-md-pull-9">
+        <div class="sphinxsidebarwrapper">
+  
+          {@ product_logo @}          
+
+          {@ product_pdf_download @}
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Percona <strong class="program">apt</strong> Repository</a><ul>
+<li><a class="reference internal" href="#supported-architectures">Supported Architectures</a></li>
+<li><a class="reference internal" href="#supported-releases">Supported Releases</a><ul>
+<li><a class="reference internal" href="#debian">Debian</a></li>
+<li><a class="reference internal" href="#ubuntu">Ubuntu</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#experimental-repository">Experimental Repository</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../installation.html"
+                        title="previous chapter">Installing Playback from Binaries</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="yum_repo.html"
+                        title="next chapter">Percona <strong class="program">yum</strong> Repository</a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">jQuery(document).ready(function(){ jQuery('#searchbox').show(0); });</script>
+          {@ product_series @}
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <!-- div class="footer">
+        &copy; Copyright 2011-2015, Percona LLC and/or its affiliates.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div -->
+  </div>
+  </body>

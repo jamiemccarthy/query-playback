@@ -1,0 +1,162 @@
+
+
+
+    <title>Compiling and Installing Playback from Source Code &mdash; Percona Playback Documentation</title>
+    
+  <head>
+    
+    
+    
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Percona Playback Documentation" href="../index.html" />
+    <link rel="next" title="Playback Overview" href="../overview.html" />
+    <link rel="prev" title="Percona yum Repository" href="yum_repo.html" /> 
+  </head>
+  <body>
+    <div class="container">  
+
+    <div class="document row">
+      <div class="documentwrapper col-md-9 col-md-push-3">
+    <div class="related row">
+      
+      <ul class="nav nav-pills">
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../overview.html" title="Playback Overview"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="yum_repo.html" title="Percona yum Repository"
+             accesskey="P">previous</a></li>
+        <li><a href="../index.html">Percona Playback Docs</a></li> 
+      </ul>
+    </div>
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="compiling-and-installing-playback-from-source-code">
+<h1>Compiling and Installing Playback from Source Code<a class="headerlink" href="#compiling-and-installing-playback-from-source-code" title="Permalink to this headline">¶</a></h1>
+<p>The source code is available from the <em>Github</em> project <a class="reference external" href="https://github.com/percona/percona-playback">here</a>. The easiest way to get the code is with <strong class="command">git clone</strong> of the desired release, such as the following:</p>
+<div class="highlight-python"><pre>git clone https://github.com/percona/percona-playback</pre>
+</div>
+<p>You should then have a directory named after the release you branched, such as <tt class="docutils literal"><span class="pre">percona-playback</span></tt>.</p>
+<div class="section" id="compiling-on-linux">
+<h2>Compiling on Linux<a class="headerlink" href="#compiling-on-linux" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="prerequisites">
+<h3>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h3>
+<p>The following packages and tools must be installed to compile <em>Playback</em> from source. These might vary from system to system.</p>
+<p>In Debian-based distributions, you need to:</p>
+<div class="highlight-python"><pre># apt-get install libtbb-dev libmysqlclient-dev \
+libboost-program-options-dev libboost-thread-dev libboost-regex-dev libboost-system-dev \
+libboost-chrono-dev \
+pkg-config cmake</pre>
+</div>
+<p>In <tt class="docutils literal"><span class="pre">RPM</span></tt>-based distributions, you need to:</p>
+<div class="highlight-python"><pre># yum install tbb-devel mysql mysql-devel \
+boost-program-options-devel boost-thread-devel boost-regex-devel boost-system-devel \
+libboost-chrono-dev \
+pkgconfig cmake</pre>
+</div>
+<p>Package <tt class="docutils literal"><span class="pre">libmysqlclient-dev</span></tt> is not strictly needed for compiling, but if you don&#8217;t have it, you don&#8217;t get to do the play back part.</p>
+</div>
+<div class="section" id="building">
+<h3>Building<a class="headerlink" href="#building" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><pre>$ mkdir build_dir
+$ cd build_dir
+$ cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
+$ make</pre>
+</div>
+<p>For a debug build run cmake with <tt class="docutils literal"><span class="pre">-DCMAKE_BUILD_TYPE=Debug</span></tt> and if you would like to compile the plugins as shared libraries use <tt class="docutils literal"><span class="pre">-DBUILD_SHARED_LIBS:BOOL=ON</span></tt>.</p>
+<p>There are several tests included, these use a dummy database client plugin to mainly test that parsing of the logs is correct.</p>
+<div class="highlight-python"><pre>$ make test</pre>
+</div>
+<p>After that you can install the percona-playback with:</p>
+<div class="highlight-python"><pre>$ sudo make install</pre>
+</div>
+<p>In some cases you&#8217;ll still need to manually link the libraries.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+    <div class="related row">
+      
+      <ul class="nav nav-pills">
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../overview.html" title="Playback Overview"
+             >next</a></li>
+        <li class="right" >
+          <a href="yum_repo.html" title="Percona yum Repository"
+             >previous</a></li>
+        <li><a href="../index.html">Percona Playback Docs</a></li> 
+      </ul>
+    </div>
+      </div>
+      <div class="sphinxsidebar  col-md-3 col-md-pull-9">
+        <div class="sphinxsidebarwrapper">
+  
+          {@ product_logo @}          
+
+          {@ product_pdf_download @}
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Compiling and Installing Playback from Source Code</a><ul>
+<li><a class="reference internal" href="#compiling-on-linux">Compiling on Linux</a><ul>
+<li><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li><a class="reference internal" href="#building">Building</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="yum_repo.html"
+                        title="previous chapter">Percona <strong class="program">yum</strong> Repository</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../overview.html"
+                        title="next chapter">Playback Overview</a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">jQuery(document).ready(function(){ jQuery('#searchbox').show(0); });</script>
+          {@ product_series @}
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <!-- div class="footer">
+        &copy; Copyright 2011-2015, Percona LLC and/or its affiliates.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div -->
+  </div>
+  </body>

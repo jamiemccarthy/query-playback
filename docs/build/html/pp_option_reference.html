@@ -1,0 +1,261 @@
+
+
+
+    <title>Playback Option Reference &mdash; Percona Playback Documentation</title>
+    
+  <head>
+    
+    
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Percona Playback Documentation" href="index.html" />
+    <link rel="up" title="Percona Playback User Manual" href="manual.html" />
+    <link rel="next" title="Known Issues" href="known_issues.html" />
+    <link rel="prev" title="Query_log plugin" href="query_log.html" /> 
+  </head>
+  <body>
+    <div class="container">  
+
+    <div class="document row">
+      <div class="documentwrapper col-md-9 col-md-push-3">
+    <div class="related row">
+      
+      <ul class="nav nav-pills">
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="known_issues.html" title="Known Issues"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="query_log.html" title="Query_log plugin"
+             accesskey="P">previous</a></li>
+        <li><a href="index.html">Percona Playback Docs</a></li>
+          <li><a href="manual.html" accesskey="U">Percona Playback User Manual</a></li> 
+      </ul>
+    </div>
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="playback-option-reference">
+<h1>Playback Option Reference<a class="headerlink" href="#playback-option-reference" title="Permalink to this headline">¶</a></h1>
+<p>This page documents the command-line options for the <strong class="program">percona-playback</strong>.</p>
+<div class="section" id="options">
+<h2>Options<a class="headerlink" href="#options" title="Permalink to this headline">¶</a></h2>
+<dl class="option">
+<dt id="cmdoption--help">
+<tt class="descname">--help</tt><tt class="descclassname"></tt><a class="headerlink" href="#cmdoption--help" title="Permalink to this definition">¶</a></dt>
+<dd><p>This option displays a help screen and exits.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption--version">
+<tt class="descname">--version</tt><tt class="descclassname"></tt><a class="headerlink" href="#cmdoption--version" title="Permalink to this definition">¶</a></dt>
+<dd><p>This option displays the <strong class="program">percona-playback</strong> version and copyright notice and then exits.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption--loop">
+<tt class="descname">--loop</tt><tt class="descclassname"> N</tt><a class="headerlink" href="#cmdoption--loop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Do the whole run N times.</p>
+</dd></dl>
+
+<div class="section" id="database-options">
+<h3>Database Options:<a class="headerlink" href="#database-options" title="Permalink to this headline">¶</a></h3>
+<dl class="option">
+<dt id="cmdoption--db-plugin">
+<tt class="descname">--db-plugin</tt><tt class="descclassname">=NAME</tt><a class="headerlink" href="#cmdoption--db-plugin" title="Permalink to this definition">¶</a></dt>
+<dd><p>This options tells <strong class="program">percona-playback</strong> which database plugin to use.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption--dispatcher-plugin">
+<tt class="descname">--dispatcher-plugin</tt><tt class="descclassname">=DISPATCHER</tt><a class="headerlink" href="#cmdoption--dispatcher-plugin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dispatcher plugin used to replay queries.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption--input-plugin">
+<tt class="descname">--input-plugin</tt><tt class="descclassname">=NAME</tt><a class="headerlink" href="#cmdoption--input-plugin" title="Permalink to this definition">¶</a></dt>
+<dd><p>This options tells <strong class="program">percona-playback</strong> which input plugin to use.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption--queue-depth">
+<tt class="descname">--queue-depth</tt><tt class="descclassname">[=#]</tt><a class="headerlink" href="#cmdoption--queue-depth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Queue depth for DB executor (thread). The larger this number is the greater the played-back workload can deviate from the original workload as some connections may be up to queue-depth behind. If no values is specified default is 1.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption--session-init-query">
+<tt class="descname">--session-init-query</tt><tt class="descclassname"></tt><a class="headerlink" href="#cmdoption--session-init-query" title="Permalink to this definition">¶</a></dt>
+<dd><p>This query will be executed just after each connect to database</p>
+</dd></dl>
+
+</div>
+<div class="section" id="mysql-client-options">
+<h3>MySQL Client Options:<a class="headerlink" href="#mysql-client-options" title="Permalink to this headline">¶</a></h3>
+<dl class="option">
+<dt id="cmdoption--mysql-host">
+<tt class="descname">--mysql-host</tt><tt class="descclassname">=HOST</tt><a class="headerlink" href="#cmdoption--mysql-host" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hostname of MySQL server</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption--mysql-port">
+<tt class="descname">--mysql-port</tt><tt class="descclassname">=PORT</tt><a class="headerlink" href="#cmdoption--mysql-port" title="Permalink to this definition">¶</a></dt>
+<dd><p>MySQL port number</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption--mysql-username">
+<tt class="descname">--mysql-username</tt><tt class="descclassname">=USERNAME</tt><a class="headerlink" href="#cmdoption--mysql-username" title="Permalink to this definition">¶</a></dt>
+<dd><p>Username to connect to MySQL</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption--mysql-password">
+<tt class="descname">--mysql-password</tt><tt class="descclassname">=PASSWORD</tt><a class="headerlink" href="#cmdoption--mysql-password" title="Permalink to this definition">¶</a></dt>
+<dd><p>Password for MySQL user</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption--mysql-schema">
+<tt class="descname">--mysql-schema</tt><tt class="descclassname">=SCHEMA</tt><a class="headerlink" href="#cmdoption--mysql-schema" title="Permalink to this definition">¶</a></dt>
+<dd><p>MySQL Schema to connect to</p>
+</dd></dl>
+
+</div>
+<div class="section" id="query-log-options">
+<h3>Query Log Options:<a class="headerlink" href="#query-log-options" title="Permalink to this headline">¶</a></h3>
+<dl class="option">
+<dt id="cmdoption--query-log-file">
+<tt class="descname">--query-log-file</tt><tt class="descclassname">=FILNAME</tt><a class="headerlink" href="#cmdoption--query-log-file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Query log file that&#8217;s going to be used.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption--query-log-read-count">
+<tt class="descname">--query-log-read-count</tt><tt class="descclassname">=[#]</tt><a class="headerlink" href="#cmdoption--query-log-read-count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Query log file read count (how many times to read query log file). If no value is specified default is 1.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption--query-log-set-timestamp">
+<tt class="descname">--query-log-set-timestamp</tt><tt class="descclassname"></tt><a class="headerlink" href="#cmdoption--query-log-set-timestamp" title="Permalink to this definition">¶</a></dt>
+<dd><p>By default, query SET TIMESTAMP=XX; that the MySQL slow query log always includes is skipped. This may cause some subsequent queries to fail, depending on the workload. If the <em class="xref std std-option">--run-set-timestamp</em> option is enabled, these queries are run as well.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption--query-log-preserve-query-time">
+<tt class="descname">--query-log-preserve-query-time</tt><tt class="descclassname"></tt><a class="headerlink" href="#cmdoption--query-log-preserve-query-time" title="Permalink to this definition">¶</a></dt>
+<dd><p>This option ensures that each query takes at least Query_time (from slow query log) to execute.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="simple-report-options">
+<h3>Simple Report Options:<a class="headerlink" href="#simple-report-options" title="Permalink to this headline">¶</a></h3>
+<dl class="option">
+<dt id="cmdoption--show-per-connection-query-count">
+<tt class="descname">--show-per-connection-query-count</tt><tt class="descclassname"></tt><a class="headerlink" href="#cmdoption--show-per-connection-query-count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display the number of queries executed for each connection.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="threads-pool-options">
+<h3>Threads-pool Options:<a class="headerlink" href="#threads-pool-options" title="Permalink to this headline">¶</a></h3>
+<dl class="option">
+<dt id="cmdoption--thread-pool-threads-count">
+<tt class="descname">--thread-pool-threads-count</tt><tt class="descclassname">=[#]</tt><a class="headerlink" href="#cmdoption--thread-pool-threads-count" title="Permalink to this definition">¶</a></dt>
+<dd><p>The number of threads in thread pool. If this options is omitted the number of threads equals to hardware concurrency.</p>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+    <div class="related row">
+      
+      <ul class="nav nav-pills">
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="known_issues.html" title="Known Issues"
+             >next</a></li>
+        <li class="right" >
+          <a href="query_log.html" title="Query_log plugin"
+             >previous</a></li>
+        <li><a href="index.html">Percona Playback Docs</a></li>
+          <li><a href="manual.html" >Percona Playback User Manual</a></li> 
+      </ul>
+    </div>
+      </div>
+      <div class="sphinxsidebar  col-md-3 col-md-pull-9">
+        <div class="sphinxsidebarwrapper">
+  
+          {@ product_logo @}          
+
+          {@ product_pdf_download @}
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Playback Option Reference</a><ul>
+<li><a class="reference internal" href="#options">Options</a><ul>
+<li><a class="reference internal" href="#database-options">Database Options:</a></li>
+<li><a class="reference internal" href="#mysql-client-options">MySQL Client Options:</a></li>
+<li><a class="reference internal" href="#query-log-options">Query Log Options:</a></li>
+<li><a class="reference internal" href="#simple-report-options">Simple Report Options:</a></li>
+<li><a class="reference internal" href="#threads-pool-options">Threads-pool Options:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="query_log.html"
+                        title="previous chapter">Query_log plugin</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="known_issues.html"
+                        title="next chapter">Known Issues</a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">jQuery(document).ready(function(){ jQuery('#searchbox').show(0); });</script>
+          {@ product_series @}
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <!-- div class="footer">
+        &copy; Copyright 2011-2015, Percona LLC and/or its affiliates.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div -->
+  </div>
+  </body>

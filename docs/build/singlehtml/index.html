@@ -1,0 +1,685 @@
+
+
+
+    <title>Percona Playback Documentation</title>
+    
+  <head>
+    
+    
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="None" href="index.html#document-index" /> 
+  </head>
+  <body>
+    <div class="container">  
+
+    <div class="document row">
+      <div class="documentwrapper col-md-9 col-md-push-3">
+    <div class="related row">
+      
+      <ul class="nav nav-pills">
+        <li><a href="index.html#document-index">Percona Playback Docs</a></li> 
+      </ul>
+    </div>
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="playback">
+<h1>Playback<a class="headerlink" href="#playback" title="Permalink to this headline">¶</a></h1>
+<p>Playback is an open source tool designed for Percona internal use. It is provided as a courtesy to users and customers, however it is not supported under a Percona Support subscription. To get the best experience and results from Playback, users and customers are encouraged to work with the <a class="reference external" href="http://www.percona.com/services/mysql-consulting">Percona Consulting team</a> on project specific needs and requirements.</p>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<span id="document-intro"></span><div class="section" id="about-playback">
+<h3>About Playback<a class="headerlink" href="#about-playback" title="Permalink to this headline">¶</a></h3>
+<p><em>Playback</em> is a tool for replaying the load of one database server to another. Currently it can read queries from <em>MySQL</em> query-log files and run them on other <em>MySQL</em> server. It has plugin architecture and can be extended with different plugins. Playback is an open source tool designed for Percona internal use. It is provided as a courtesy to users and customers, however it is not supported under a Percona Support subscription. To get the best experience and results from Playback, users and customers are encouraged to work with the <a class="reference external" href="http://www.percona.com/services/mysql-consulting">Percona Consulting team</a> on project specific needs and requirements.</p>
+<p>There are following categories of plugins for <strong class="program">percona-playback</strong>:</p>
+<blockquote>
+<div><ul class="simple">
+<li><strong>input</strong> - responsible for where input data is given from,</li>
+<li><strong>dispatcher</strong> - responsible for replaying the queries</li>
+<li><strong>db</strong> - where queries should be played,</li>
+<li><strong>report</strong> - how to represent results,</li>
+<li><strong>other</strong> - plugins that doesn&#8217;t belong to the previous categories.</li>
+</ul>
+</div></blockquote>
+<p>Each plugin can have own set of command line options which are usually provided with help messages.</p>
+<p>At this moment the following plugins are implemented:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><cite>input</cite></li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li>query_log - reads queries from query-log files</li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><cite>dispatcher</cite></li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li>thread-per-connection - this plugin uses one thread per connection for replaying the queries.</li>
+<li>thread-pool - uses <a class="reference internal" href="index.html#cmdoption--thread-pool-threads-count"><em class="xref std std-option">--thread-pool-threads-count</em></a> to enable more queries per connection by utilizing the thread pool.</li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li><cite>db</cite></li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li>libmysqlclient - plays queries in <em>MySQL</em> server</li>
+<li>null - doesn&#8217;t play queries anywhere but useful for testing</li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="4">
+<li><cite>report</cite></li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li>simple_report - output information about executed queries in simple form</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+<p>The engine&#8217;s architecture can be configured with the <a class="reference internal" href="index.html#cmdoption--dispatcher-plugin"><em class="xref std std-option">--dispatcher-plugin</em></a> option. Each thread has queries queue. <cite>Input</cite> plugin parses input data and pass parsed queries to the engine. The engine pushes queries to the queue of certain <cite>db</cite> thread. The queue size can be limited with <a class="reference internal" href="index.html#cmdoption--queue-depth"><em class="xref std std-option">--queue-depth</em></a> command line option. If the limit is reached the engine will stop <cite>input</cite> plugin thread until the size of the queue becomes less then the limit.</p>
+<img alt="_images/pp_intro.png" src="_images/pp_intro.png" />
+<p>Input data can be played several times in a row. The number of repeats can be set with &#8211;loop command line options (NYI).</p>
+</div>
+</div>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<span id="document-installation"></span><div class="section" id="installing-playback-from-binaries">
+<h3>Installing Playback from Binaries<a class="headerlink" href="#installing-playback-from-binaries" title="Permalink to this headline">¶</a></h3>
+<p>Before installing, you might want to read the <a class="reference internal" href="index.html#document-release-notes"><em>Playback release notes</em></a>.</p>
+<p>Ready-to-use binaries are available from the <em>Playback</em> <a class="reference external" href="http://www.percona.com/downloads/Percona-Playback/">download page</a>, including:</p>
+<blockquote>
+<div><ul class="simple">
+<li><tt class="docutils literal"><span class="pre">RPM</span></tt> packages for <em>RHEL</em> 5 and <em>RHEL</em> 6 (including compatible distributions such as CentOS and Oracle Enterprise Linux)</li>
+<li><em>Debian</em> packages for <em>Debian</em> and <em>Ubuntu</em></li>
+<li>Generic <tt class="docutils literal"><span class="pre">.tar.gz</span></tt> binary packages</li>
+</ul>
+</div></blockquote>
+<div class="section" id="using-percona-software-repositories">
+<h4>Using Percona Software Repositories<a class="headerlink" href="#using-percona-software-repositories" title="Permalink to this headline">¶</a></h4>
+<div class="toctree-wrapper compound">
+<span id="document-installation/apt_repo"></span><div class="section" id="percona-apt-repository">
+<h5>Percona <strong class="program">apt</strong> Repository<a class="headerlink" href="#percona-apt-repository" title="Permalink to this headline">¶</a></h5>
+<p><em>Debian</em> and <em>Ubuntu</em> packages from <em>Percona</em> are signed with a key. Before using the repository, you should add the key to <strong class="program">apt</strong>. To do that, run the following commands:</p>
+<div class="highlight-python"><pre>$ gpg --keyserver  hkp://keys.gnupg.net --recv-keys 1C4CBDCDCD2EFD2A
+... [some output removed] ...
+gpg:               imported: 1
+
+$ gpg -a --export CD2EFD2A | sudo apt-key add -</pre>
+</div>
+<p>Add this to <tt class="file docutils literal"><span class="pre">/etc/apt/sources.list</span></tt>, replacing <tt class="docutils literal"><span class="pre">VERSION</span></tt> with the name of your distribution:</p>
+<div class="highlight-python"><pre>deb http://repo.percona.com/apt VERSION main
+deb-src http://repo.percona.com/apt VERSION main</pre>
+</div>
+<p>Remember to update the local cache:</p>
+<div class="highlight-python"><pre>$ apt-get update</pre>
+</div>
+<div class="section" id="supported-architectures">
+<h6>Supported Architectures<a class="headerlink" href="#supported-architectures" title="Permalink to this headline">¶</a></h6>
+<blockquote>
+<div><ul class="simple">
+<li>x86_64 (also known as amd64)</li>
+<li>x86</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="supported-releases">
+<h6>Supported Releases<a class="headerlink" href="#supported-releases" title="Permalink to this headline">¶</a></h6>
+<div class="section" id="debian">
+<h7>Debian<a class="headerlink" href="#debian" title="Permalink to this headline">¶</a></h7>
+<blockquote>
+<div><ul class="simple">
+<li>6.0 (squeeze)</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="ubuntu">
+<h7>Ubuntu<a class="headerlink" href="#ubuntu" title="Permalink to this headline">¶</a></h7>
+<blockquote>
+<div><ul class="simple">
+<li>10.04LTS (lucid)</li>
+<li>12.04LTS (precise)</li>
+<li>12.10 (quantal)</li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="experimental-repository">
+<h6>Experimental Repository<a class="headerlink" href="#experimental-repository" title="Permalink to this headline">¶</a></h6>
+<p>Percona now offers experimental repository for beta releases. To enable it add this to <tt class="file docutils literal"><span class="pre">/etc/apt/sources.list</span></tt>, replacing <tt class="docutils literal"><span class="pre">VERSION</span></tt> with the name of your distribution:</p>
+<div class="highlight-python"><pre>deb http://repo.percona.com/apt VERSION main experimental
+deb-src http://repo.percona.com/apt VERSION main experimental</pre>
+</div>
+</div>
+</div>
+<span id="document-installation/yum_repo"></span><div class="section" id="percona-yum-repository">
+<h5>Percona <strong class="program">yum</strong> Repository<a class="headerlink" href="#percona-yum-repository" title="Permalink to this headline">¶</a></h5>
+<p>The <em>Percona</em> <strong class="program">yum</strong> repository supports popular <em>RPM</em>-based operating systems, including the <em>Amazon Linux AMI</em>.</p>
+<p>The easiest way to install the <em>Percona Yum</em> repository is to install an <em>RPM</em> that configures <strong class="program">yum</strong> and installs the <a class="reference external" href="http://www.percona.com/downloads/RPM-GPG-KEY-percona">Percona GPG key</a>. You can also do the installation manually.</p>
+<div class="section" id="automatic-installation">
+<h6>Automatic Installation<a class="headerlink" href="#automatic-installation" title="Permalink to this headline">¶</a></h6>
+<p>Execute the following command as a <tt class="docutils literal"><span class="pre">root</span></tt> user, replacing <tt class="docutils literal"><span class="pre">x86_64</span></tt> with <tt class="docutils literal"><span class="pre">i386</span></tt> if you are not running a 64-bit operating system:</p>
+<div class="highlight-python"><pre>$ yum install http://www.percona.com/downloads/percona-release/redhat/0.1-3/percona-release-0.1-3.noarch.rpm</pre>
+</div>
+<p>You should see some output such as the following:</p>
+<div class="highlight-python"><pre>Retrieving http://www.percona.com/downloads/percona-release/redhat/0.1-3/percona-release-0.1-3.noarch.rpm
+Preparing...                ########################################### [100%]
+   1:percona-release        ########################################### [100%]</pre>
+</div>
+<p>The RPMs for the automatic installation are available at <a class="reference external" href="http://www.percona.com/downloads/percona-release/">http://www.percona.com/downloads/percona-release/</a> and include source code.</p>
+</div>
+<div class="section" id="testing-the-repository">
+<h6>Testing The Repository<a class="headerlink" href="#testing-the-repository" title="Permalink to this headline">¶</a></h6>
+<p>Make sure packages are downloaded from the repository, by executing the following command as root:</p>
+<div class="highlight-python"><pre>yum list | grep percona</pre>
+</div>
+<p>You should see output similar to the following:</p>
+<div class="highlight-python"><pre>percona-release.x86_64                     0.0-1                       installed
+...
+Percona-Server-client-51.x86_64            5.1.47-rel11.1.51.rhel5     percona
+Percona-Server-devel-51.x86_64             5.1.47-rel11.1.51.rhel5     percona
+Percona-Server-server-51.x86_64            5.1.47-rel11.1.51.rhel5     percona
+Percona-Server-shared-51.x86_64            5.1.47-rel11.1.51.rhel5     percona
+Percona-Server-test-51.x86_64              5.1.47-rel11.1.51.rhel5     percona
+...
+xtrabackup.x86_64                          1.2-22.rhel5                percona</pre>
+</div>
+</div>
+<div class="section" id="supported-platforms">
+<h6>Supported Platforms<a class="headerlink" href="#supported-platforms" title="Permalink to this headline">¶</a></h6>
+<blockquote>
+<div><ul class="simple">
+<li><tt class="docutils literal"><span class="pre">x86_64</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">i386</span></tt></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="supported-releases">
+<h6>Supported Releases<a class="headerlink" href="#supported-releases" title="Permalink to this headline">¶</a></h6>
+<p>The <em>CentOS</em> repositories should work well with <em>Red Hat Enterprise Linux</em> too, provided that <strong class="program">yum</strong> is installed on the server.</p>
+<ul class="simple">
+<li><em>CentOS</em> 5 and <em>RHEL</em> 5</li>
+<li><em>CentOS</em> 6 and <em>RHEL</em> 6</li>
+<li><em>Amazon Linux AMI</em> (works the same as <em>CentOS</em> 5)</li>
+</ul>
+</div>
+</div>
+</div>
+<p><em>Percona</em> provides repositories for <strong class="program">yum</strong> (<tt class="docutils literal"><span class="pre">RPM</span></tt> packages for <em>Red Hat Enterprise Linux</em> and compatible distributions such as <em>CentOS</em>, <em>Oracle Enterprise Linux</em>, and <em>Amazon Linux AMI</em>) and <strong class="program">apt</strong> (<tt class="file docutils literal"><span class="pre">.deb</span></tt> packages for <em>Ubuntu</em> and <em>Debian</em>) for software such as <em>Percona Server</em>, <a class="reference internal" href="index.html#term-xtradb"><em class="xref std std-term">XtraDB</em></a>, <a href="#id1"><span class="problematic" id="id2">|Percona XtraBackup|</span></a>, and <em>Percona Toolkit</em>. This makes it easy to install and update your software and its dependencies through your operating system&#8217;s package manager.</p>
+<p>This is the recommend way of installing where possible.</p>
+</div>
+</div>
+<span id="document-installation/compiling_playback"></span><div class="section" id="compiling-and-installing-playback-from-source-code">
+<h3>Compiling and Installing Playback from Source Code<a class="headerlink" href="#compiling-and-installing-playback-from-source-code" title="Permalink to this headline">¶</a></h3>
+<p>The source code is available from the <em>Github</em> project <a class="reference external" href="https://github.com/percona/percona-playback">here</a>. The easiest way to get the code is with <strong class="command">git clone</strong> of the desired release, such as the following:</p>
+<div class="highlight-python"><pre>git clone https://github.com/percona/percona-playback</pre>
+</div>
+<p>You should then have a directory named after the release you branched, such as <tt class="docutils literal"><span class="pre">percona-playback</span></tt>.</p>
+<div class="section" id="compiling-on-linux">
+<h4>Compiling on Linux<a class="headerlink" href="#compiling-on-linux" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="prerequisites">
+<h5>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h5>
+<p>The following packages and tools must be installed to compile <em>Playback</em> from source. These might vary from system to system.</p>
+<p>In Debian-based distributions, you need to:</p>
+<div class="highlight-python"><pre># apt-get install libtbb-dev libmysqlclient-dev \
+libboost-program-options-dev libboost-thread-dev libboost-regex-dev libboost-system-dev \
+libboost-chrono-dev \
+pkg-config cmake</pre>
+</div>
+<p>In <tt class="docutils literal"><span class="pre">RPM</span></tt>-based distributions, you need to:</p>
+<div class="highlight-python"><pre># yum install tbb-devel mysql mysql-devel \
+boost-program-options-devel boost-thread-devel boost-regex-devel boost-system-devel \
+libboost-chrono-dev \
+pkgconfig cmake</pre>
+</div>
+<p>Package <tt class="docutils literal"><span class="pre">libmysqlclient-dev</span></tt> is not strictly needed for compiling, but if you don&#8217;t have it, you don&#8217;t get to do the play back part.</p>
+</div>
+<div class="section" id="building">
+<h5>Building<a class="headerlink" href="#building" title="Permalink to this headline">¶</a></h5>
+<div class="highlight-python"><pre>$ mkdir build_dir
+$ cd build_dir
+$ cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
+$ make</pre>
+</div>
+<p>For a debug build run cmake with <tt class="docutils literal"><span class="pre">-DCMAKE_BUILD_TYPE=Debug</span></tt> and if you would like to compile the plugins as shared libraries use <tt class="docutils literal"><span class="pre">-DBUILD_SHARED_LIBS:BOOL=ON</span></tt>.</p>
+<p>There are several tests included, these use a dummy database client plugin to mainly test that parsing of the logs is correct.</p>
+<div class="highlight-python"><pre>$ make test</pre>
+</div>
+<p>After that you can install the percona-playback with:</p>
+<div class="highlight-python"><pre>$ sudo make install</pre>
+</div>
+<p>In some cases you&#8217;ll still need to manually link the libraries.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="user-s-manual">
+<h2>User&#8217;s Manual<a class="headerlink" href="#user-s-manual" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<span id="document-overview"></span><div class="section" id="playback-overview">
+<h3>Playback Overview<a class="headerlink" href="#playback-overview" title="Permalink to this headline">¶</a></h3>
+<p><strong class="program">percona-playback</strong> is a utility for replaying database server load.
+It currently supports replaying load captured via a <em>MySQL</em> query log file.</p>
+<div class="section" id="inaccuracies-in-playback">
+<h4>Inaccuracies in playback<a class="headerlink" href="#inaccuracies-in-playback" title="Permalink to this headline">¶</a></h4>
+<p>Due to the highly parallel nature of most database server workloads, it is
+essentially impossible to ever 100% accurately replay what went on at any
+particular time. <strong class="program">percona-playback</strong> makes a best effort to be
+accurate and attempts to inform you of how much the replay differed from
+what was originally executed.</p>
+<p>You may get more inaccuracies when replaying against different database
+server versions or a database server running on different hardware. This
+could be due to how IO is scheduled, which competing transactions get
+row locks first etc etc.</p>
+</div>
+</div>
+<span id="document-manual"></span><div class="section" id="percona-playback-user-manual">
+<span id="user-manual"></span><h3>Percona Playback User Manual<a class="headerlink" href="#percona-playback-user-manual" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="plugins">
+<h4>Plugins<a class="headerlink" href="#plugins" title="Permalink to this headline">¶</a></h4>
+<div class="toctree-wrapper compound">
+<span id="document-query_log"></span><div class="section" id="query-log-plugin">
+<span id="query-log"></span><h5>Query_log plugin<a class="headerlink" href="#query-log-plugin" title="Permalink to this headline">¶</a></h5>
+<p>This plugin parses queries from query log files. It can preserve query execution time with <a class="reference internal" href="index.html#cmdoption--query-log-preserve-query-time"><em class="xref std std-option">--query-log-preserve-query-time</em></a> option. The <a class="reference internal" href="index.html#cmdoption--query-log-read-count"><em class="xref std std-option">--query-log-read-count</em></a> options allows to replay query log file several times (NYI). The difference between this and <a class="reference internal" href="index.html#cmdoption--loop"><em class="xref std std-option">--loop</em></a> options should be that <a class="reference internal" href="index.html#cmdoption--loop"><em class="xref std std-option">--loop</em></a> reports at the end of each execution whereas <a class="reference internal" href="index.html#cmdoption--query-log-read-count"><em class="xref std std-option">--query-log-read-count</em></a> reports once after all executions.</p>
+<p>The example of usage:
+Run percona_playback/test/basic-slow.log on default libmysqlplugin settings:</p>
+<div class="highlight-python"><pre>$ percona_playback --db-plugin=libmysqlclient --query-log-file=./percona_playback/test/basic-slow.log</pre>
+</div>
+<p>The other options description can be found in &#8220;help&#8221; message.</p>
+</div>
+</div>
+</div>
+<div class="section" id="references">
+<h4>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h4>
+<div class="toctree-wrapper compound">
+<span id="document-pp_option_reference"></span><div class="section" id="playback-option-reference">
+<h5>Playback Option Reference<a class="headerlink" href="#playback-option-reference" title="Permalink to this headline">¶</a></h5>
+<p>This page documents the command-line options for the <strong class="program">percona-playback</strong>.</p>
+<div class="section" id="options">
+<h6>Options<a class="headerlink" href="#options" title="Permalink to this headline">¶</a></h6>
+<dl class="option">
+<dt id="cmdoption--help">
+<tt class="descname">--help</tt><tt class="descclassname"></tt><a class="headerlink" href="#cmdoption--help" title="Permalink to this definition">¶</a></dt>
+<dd><p>This option displays a help screen and exits.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption--version">
+<tt class="descname">--version</tt><tt class="descclassname"></tt><a class="headerlink" href="#cmdoption--version" title="Permalink to this definition">¶</a></dt>
+<dd><p>This option displays the <strong class="program">percona-playback</strong> version and copyright notice and then exits.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption--loop">
+<tt class="descname">--loop</tt><tt class="descclassname"> N</tt><a class="headerlink" href="#cmdoption--loop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Do the whole run N times.</p>
+</dd></dl>
+
+<div class="section" id="database-options">
+<h7>Database Options:<a class="headerlink" href="#database-options" title="Permalink to this headline">¶</a></h7>
+<dl class="option">
+<dt id="cmdoption--db-plugin">
+<tt class="descname">--db-plugin</tt><tt class="descclassname">=NAME</tt><a class="headerlink" href="#cmdoption--db-plugin" title="Permalink to this definition">¶</a></dt>
+<dd><p>This options tells <strong class="program">percona-playback</strong> which database plugin to use.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption--dispatcher-plugin">
+<tt class="descname">--dispatcher-plugin</tt><tt class="descclassname">=DISPATCHER</tt><a class="headerlink" href="#cmdoption--dispatcher-plugin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dispatcher plugin used to replay queries.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption--input-plugin">
+<tt class="descname">--input-plugin</tt><tt class="descclassname">=NAME</tt><a class="headerlink" href="#cmdoption--input-plugin" title="Permalink to this definition">¶</a></dt>
+<dd><p>This options tells <strong class="program">percona-playback</strong> which input plugin to use.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption--queue-depth">
+<tt class="descname">--queue-depth</tt><tt class="descclassname">[=#]</tt><a class="headerlink" href="#cmdoption--queue-depth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Queue depth for DB executor (thread). The larger this number is the greater the played-back workload can deviate from the original workload as some connections may be up to queue-depth behind. If no values is specified default is 1.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption--session-init-query">
+<tt class="descname">--session-init-query</tt><tt class="descclassname"></tt><a class="headerlink" href="#cmdoption--session-init-query" title="Permalink to this definition">¶</a></dt>
+<dd><p>This query will be executed just after each connect to database</p>
+</dd></dl>
+
+</div>
+<div class="section" id="mysql-client-options">
+<h7>MySQL Client Options:<a class="headerlink" href="#mysql-client-options" title="Permalink to this headline">¶</a></h7>
+<dl class="option">
+<dt id="cmdoption--mysql-host">
+<tt class="descname">--mysql-host</tt><tt class="descclassname">=HOST</tt><a class="headerlink" href="#cmdoption--mysql-host" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hostname of MySQL server</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption--mysql-port">
+<tt class="descname">--mysql-port</tt><tt class="descclassname">=PORT</tt><a class="headerlink" href="#cmdoption--mysql-port" title="Permalink to this definition">¶</a></dt>
+<dd><p>MySQL port number</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption--mysql-username">
+<tt class="descname">--mysql-username</tt><tt class="descclassname">=USERNAME</tt><a class="headerlink" href="#cmdoption--mysql-username" title="Permalink to this definition">¶</a></dt>
+<dd><p>Username to connect to MySQL</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption--mysql-password">
+<tt class="descname">--mysql-password</tt><tt class="descclassname">=PASSWORD</tt><a class="headerlink" href="#cmdoption--mysql-password" title="Permalink to this definition">¶</a></dt>
+<dd><p>Password for MySQL user</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption--mysql-schema">
+<tt class="descname">--mysql-schema</tt><tt class="descclassname">=SCHEMA</tt><a class="headerlink" href="#cmdoption--mysql-schema" title="Permalink to this definition">¶</a></dt>
+<dd><p>MySQL Schema to connect to</p>
+</dd></dl>
+
+</div>
+<div class="section" id="query-log-options">
+<h7>Query Log Options:<a class="headerlink" href="#query-log-options" title="Permalink to this headline">¶</a></h7>
+<dl class="option">
+<dt id="cmdoption--query-log-file">
+<tt class="descname">--query-log-file</tt><tt class="descclassname">=FILNAME</tt><a class="headerlink" href="#cmdoption--query-log-file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Query log file that&#8217;s going to be used.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption--query-log-read-count">
+<tt class="descname">--query-log-read-count</tt><tt class="descclassname">=[#]</tt><a class="headerlink" href="#cmdoption--query-log-read-count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Query log file read count (how many times to read query log file). If no value is specified default is 1.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption--query-log-set-timestamp">
+<tt class="descname">--query-log-set-timestamp</tt><tt class="descclassname"></tt><a class="headerlink" href="#cmdoption--query-log-set-timestamp" title="Permalink to this definition">¶</a></dt>
+<dd><p>By default, query SET TIMESTAMP=XX; that the MySQL slow query log always includes is skipped. This may cause some subsequent queries to fail, depending on the workload. If the <em class="xref std std-option">--run-set-timestamp</em> option is enabled, these queries are run as well.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption--query-log-preserve-query-time">
+<tt class="descname">--query-log-preserve-query-time</tt><tt class="descclassname"></tt><a class="headerlink" href="#cmdoption--query-log-preserve-query-time" title="Permalink to this definition">¶</a></dt>
+<dd><p>This option ensures that each query takes at least Query_time (from slow query log) to execute.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="simple-report-options">
+<h7>Simple Report Options:<a class="headerlink" href="#simple-report-options" title="Permalink to this headline">¶</a></h7>
+<dl class="option">
+<dt id="cmdoption--show-per-connection-query-count">
+<tt class="descname">--show-per-connection-query-count</tt><tt class="descclassname"></tt><a class="headerlink" href="#cmdoption--show-per-connection-query-count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display the number of queries executed for each connection.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="threads-pool-options">
+<h7>Threads-pool Options:<a class="headerlink" href="#threads-pool-options" title="Permalink to this headline">¶</a></h7>
+<dl class="option">
+<dt id="cmdoption--thread-pool-threads-count">
+<tt class="descname">--thread-pool-threads-count</tt><tt class="descclassname">=[#]</tt><a class="headerlink" href="#cmdoption--thread-pool-threads-count" title="Permalink to this definition">¶</a></dt>
+<dd><p>The number of threads in thread pool. If this options is omitted the number of threads equals to hardware concurrency.</p>
+</dd></dl>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<span id="document-known_issues"></span><div class="section" id="known-issues">
+<h3>Known Issues<a class="headerlink" href="#known-issues" title="Permalink to this headline">¶</a></h3>
+<p>There are a few known issues with <strong class="program">percona-playback</strong> that can
+affect the expected result. Some of these are solvable through various
+work arounds by the user, others only by changing <strong class="program">percona-playback</strong>
+itself. We hope to somewhat adequately address all of these in future releases.</p>
+<div class="section" id="connection-leaks-in-the-playback">
+<h4>Connection Leaks in the Playback<a class="headerlink" href="#connection-leaks-in-the-playback" title="Permalink to this headline">¶</a></h4>
+<p>The query_log plugin suffer from what is known as connection leaks.</p>
+<p>In the case of query_log plugin, when query_log parser meets new thread_id it creates new MySQL thread and sends queries using that thread. When there is a quit command in the query log file for a particular thread_id, then <strong class="program">percona-playback</strong> closes the MySQL connection and terminates the thread. But it can be the case when there are threads in query log without quit command may be due to abnormal session termination (connection break due to session inactivity for example). And this will again lead to connection leaks because such connections won&#8217;t get closed.</p>
+</div>
+<div class="section" id="accurate-mode">
+<h4>Accurate Mode<a class="headerlink" href="#accurate-mode" title="Permalink to this headline">¶</a></h4>
+<p>The option &#8211;query-log-preserve-query-time is enables accurate mode.  Accurate mode does not preserve delays in between queries.  The query_log plugin preserves only query execution time. So &#8211;query-log-preserve-query-time is not completely accurate.</p>
+<p>Note also that accuracy is only with respect to queries executed within a single connection, for example suppose there are two MySQL threads, thread_id 1 and thread_id 2, then in that case accuracy will only deal with executing queries accurately within the context of the threads. So for example if the query log contains an entry first of a select by thread_id 1 and then an insert by thread_id 2, this order will not be guaranteed, and its possible that when <strong class="program">percona-playback</strong> replays the query log the insert by thread_id 2 is done before the select by thread_id 1. Therefore <strong class="program">percona-playback</strong> can only be used for load testing and cannot be used for functional testing as there is no concept of global accuracy.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="miscellaneous">
+<h2>Miscellaneous<a class="headerlink" href="#miscellaneous" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<span id="document-faq"></span><div class="section" id="frequently-asked-questions">
+<h3>Frequently Asked Questions<a class="headerlink" href="#frequently-asked-questions" title="Permalink to this headline">¶</a></h3>
+</div>
+<span id="document-release-notes"></span><div class="section" id="playback-release-notes">
+<h3>Playback release notes<a class="headerlink" href="#playback-release-notes" title="Permalink to this headline">¶</a></h3>
+<div class="toctree-wrapper compound">
+<span id="document-release-notes/0/0.1"></span><div class="section" id="percona-playback-0-1">
+<h4>Percona Playback 0.1<a class="headerlink" href="#percona-playback-0-1" title="Permalink to this headline">¶</a></h4>
+<p>Initial public release. Just supports reading from slow query log and blasting queries at a database server. It should be considered Alpha quality.</p>
+<dl class="docutils">
+<dt>Features:</dt>
+<dd><ul class="first last simple">
+<li>slow query log parsing</li>
+<li>mysql client library</li>
+<li>one thread per client thread</li>
+<li>basic report as to how the replay went</li>
+<li>&#8220;as fast as possible&#8221; playback only. If query execution takes less time on playback server than original one, percona-playback will not pause.</li>
+</ul>
+</dd>
+<dt>Notable missing features:</dt>
+<dd><ul class="first last simple">
+<li>wall-time playback: ability to have the same amount of real-world time pass (i.e. a gap of 10seconds between queries will be preserved).</li>
+<li>parsing of general query log</li>
+</ul>
+</dd>
+</dl>
+</div>
+<span id="document-release-notes/0/0.2"></span><div class="section" id="percona-playback-0-2">
+<h4>Percona Playback 0.2<a class="headerlink" href="#percona-playback-0-2" title="Permalink to this headline">¶</a></h4>
+<p>This release should be considered Alpha quality.</p>
+<p>Added &#8211;preserve-query-time to ensure that each query takes at least Query_time (from slow query log) to execute by injecting a usleep() call afterwards if needed.</p>
+</div>
+<span id="document-release-notes/0/0.3"></span><div class="section" id="percona-playback-0-3">
+<h4>Percona Playback 0.3<a class="headerlink" href="#percona-playback-0-3" title="Permalink to this headline">¶</a></h4>
+<p>This release should be considered Alpha quality.</p>
+<p>Add basic tcpdump playback and basic documentation.
+Build and test works on increased number of platforms.</p>
+</div>
+<span id="document-release-notes/0/0.4"></span><div class="section" id="percona-playback-0-4">
+<h4>Percona Playback 0.4<a class="headerlink" href="#percona-playback-0-4" title="Permalink to this headline">¶</a></h4>
+<p>This release should be considered Alpha quality.</p>
+<div class="section" id="changes-since-0-3">
+<h5>Changes since 0.3<a class="headerlink" href="#changes-since-0-3" title="Permalink to this headline">¶</a></h5>
+<blockquote>
+<div><ul class="simple">
+<li>Produce binary packages for CentOS/RHEL and Debian/Ubuntu.</li>
+<li>Initial libdrizzle based database client (can be used instead of libmysqlclient).</li>
+<li>Fix <a class="reference external" href="https://bugs.launchpad.net/percona-playback/+bug/1021577">#1021577</a>, improve accurate mode of tcpdump playback.</li>
+<li>We now build on CentOS/RHEL 5 (with appropriate libraries)</li>
+<li>Documentation updates</li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+<span id="document-release-notes/0/0.5"></span><div class="section" id="percona-playback-0-5">
+<h4>Percona Playback 0.5<a class="headerlink" href="#percona-playback-0-5" title="Permalink to this headline">¶</a></h4>
+<p>Percona is glad to announce the release of <em>Percona Playback</em> 0.5 on November 26th, 2012. Downloads are available from our download site <a class="reference external" href="http://www.percona.com/downloads/Percona-Playback/Percona-Playback-0.5/">here</a> and <a class="reference internal" href="index.html#document-installation"><em>Percona Software Repositories</em></a>.</p>
+<p>This release should be considered Alpha quality.</p>
+<div class="section" id="new-features">
+<h5>New features<a class="headerlink" href="#new-features" title="Permalink to this headline">¶</a></h5>
+<blockquote>
+<div><ul class="simple">
+<li>Reports have been extended and now return the list of queries with a response time longer than the ones run on the original. Additional statistics, like the query types (SELECT, UPDATE,...) with the proportion off faster and slower statement for each categories, has been added as well.</li>
+<li><em>Percona Playback</em> now supports reading the slow query log from standard input (<tt class="docutils literal"><span class="pre">stdin</span></tt>) instead of log file.</li>
+<li>New option <a class="reference internal" href="index.html#cmdoption--session-init-query"><em class="xref std std-option">--session-init-query</em></a> has been added. It allows <em>Percona Playback</em> to execute some query just after connection is established. This can be used to initialize some session variables.</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="bugs-fixed">
+<h5>Bugs fixed<a class="headerlink" href="#bugs-fixed" title="Permalink to this headline">¶</a></h5>
+<blockquote>
+<div><ul class="simple">
+<li>Multi-line queries in the slow query log didn&#8217;t work correctly. Bug fixed <a class="reference external" href="https://bugs.launchpad.net/percona-playback/+bug/1035217">#1035217</a> (<em>Stewart Smith</em>).</li>
+<li>Raw tcpdump format wasn&#8217;t documented. Bug fixed <a class="reference external" href="https://bugs.launchpad.net/percona-playback/+bug/1034527">#1034527</a> (<em>Hrvoje Matijakovic</em>).</li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+<span id="document-release-notes/0/0.6"></span><div class="section" id="percona-playback-0-6">
+<h4>Percona Playback 0.6<a class="headerlink" href="#percona-playback-0-6" title="Permalink to this headline">¶</a></h4>
+<p>Percona is glad to announce the release of <em>Percona Playback</em> 0.6 on April 9th, 2013. Downloads are available from our download site <a class="reference external" href="http://www.percona.com/downloads/Percona-Playback/Percona-Playback-0.5/">here</a> and <a class="reference internal" href="index.html#document-installation"><em>Percona Software Repositories</em></a>.</p>
+<p>This release should be considered <em>BETA</em> quality.</p>
+<div class="section" id="new-features">
+<h5>New features<a class="headerlink" href="#new-features" title="Permalink to this headline">¶</a></h5>
+<blockquote>
+<div>New <tt class="docutils literal"><span class="pre">Pool</span> <span class="pre">of</span> <span class="pre">threads</span></tt> feature has been implemented which can be used for dispatching queries to database servers.</div></blockquote>
+</div>
+<div class="section" id="bugs-fixed">
+<h5>Bugs fixed<a class="headerlink" href="#bugs-fixed" title="Permalink to this headline">¶</a></h5>
+<blockquote>
+<div><p><em>Percona Playback</em> now shows error when it&#8217;s unable to connect to the database server. Bug fixed <a class="reference external" href="https://bugs.launchpad.net/percona-playback/+bug/1070824">#1070824</a> (<em>Vlad Lesin</em>).</p>
+<p>Multi-line query parsing has been improved. Bug fixed <a class="reference external" href="https://bugs.launchpad.net/percona-playback/+bug/1080648">#1080648</a> (<em>Vlad Lesin</em>).</p>
+<p>Missing build dependences have been added to the <tt class="docutils literal"><span class="pre">README</span></tt> file. Bug fixed <a class="reference external" href="https://bugs.launchpad.net/percona-playback/+bug/1072845">#1072845</a> (<em>Stewart Smith</em>).</p>
+<p><em>Percona Playback</em> wouldn&#8217;t reconnect or log the error if the connection was broken during the query. Bug fixed <a class="reference external" href="https://bugs.launchpad.net/percona-playback/+bug/1080654">#1080654</a> (<em>Vlad Lesin</em>).</p>
+</div></blockquote>
+</div>
+</div>
+<span id="document-release-notes/0/0.7"></span><div class="section" id="percona-playback-0-7">
+<h4>Percona Playback 0.7<a class="headerlink" href="#percona-playback-0-7" title="Permalink to this headline">¶</a></h4>
+<p>Percona is glad to announce the release of <em>Percona Playback</em> 0.7 on October 21st, 2013. Downloads are available from our download site <a class="reference external" href="http://www.percona.com/downloads/Percona-Playback/Percona-Playback-0.7/">here</a> and <a class="reference internal" href="index.html#document-installation"><em>Percona Software Repositories</em></a>.</p>
+<p>This release should be considered <em>BETA</em> quality.</p>
+<div class="section" id="bugs-fixed">
+<h5>Bugs fixed<a class="headerlink" href="#bugs-fixed" title="Permalink to this headline">¶</a></h5>
+<p>This release fixes various packaging and documentation issues and updates copyright notices. The primary goal of this release was to ensure that <em>Percona Playback</em> is ready to be packaged for Debian, Ubuntu and other Linux distributions.</p>
+</div>
+</div>
+</div>
+</div>
+<span id="document-glossary"></span><div class="section" id="glossary">
+<h3>Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h3>
+<dl class="glossary docutils">
+<dt id="term-innodb">InnoDB</dt>
+<dd>Storage engine which provides ACID-compliant transactions and foreign key support, among others improvements over <a class="reference internal" href="index.html#term-myisam"><em class="xref std std-term">MyISAM</em></a>. It is the default engine for <em>MySQL</em> as of the 5.5 series.</dd>
+<dt id="term-myisam">MyISAM</dt>
+<dd>Previous default storage engine for <em>MySQL</em> for versions prior to 5.5. It doesn&#8217;t fully support transactions but in some scenarios may be faster than <a class="reference internal" href="index.html#term-innodb"><em class="xref std std-term">InnoDB</em></a>. Each table is stored on disk in 3 files: <cite>.frm</cite>, <cite>.MYD</cite>, <cite>.MYI</cite></dd>
+<dt id="term-xtradb">XtraDB</dt>
+<dd><em>Percona XtraDB</em> is an enhanced version of the InnoDB storage engine, designed to better scale on modern hardware, and including a variety of other features useful in high performance environments. It is fully backwards compatible, and so can be used as a drop-in replacement for standard InnoDB. More information <a class="reference external" href="http://www.percona.com/docs/wiki/Percona-XtraDB:start">here</a> .</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><em>Index</em></a></li>
+<li><a class="reference internal" href="search.html"><em>Search Page</em></a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+    <div class="related row">
+      
+      <ul class="nav nav-pills">
+        <li><a href="index.html#document-index">Percona Playback Docs</a></li> 
+      </ul>
+    </div>
+      </div>
+      <div class="sphinxsidebar  col-md-3 col-md-pull-9">
+        <div class="sphinxsidebarwrapper">
+  
+          {@ product_logo @}          
+
+          {@ product_pdf_download @}
+  <h3><a href="index.html#document-index">Table Of Contents</a></h3>
+  <ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-intro">About Playback</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-installation">Installing Playback from Binaries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-installation/compiling_playback">Compiling and Installing Playback from Source Code</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-overview">Playback Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="index.html#inaccuracies-in-playback">Inaccuracies in playback</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-manual">Percona Playback User Manual</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="index.html#plugins">Plugins</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="index.html#document-query_log">Query_log plugin</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#references">References</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="index.html#document-pp_option_reference">Playback Option Reference</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="index.html#options">Options</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-known_issues">Known Issues</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="index.html#connection-leaks-in-the-playback">Connection Leaks in the Playback</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#accurate-mode">Accurate Mode</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-faq">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-release-notes">Playback release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-glossary">Glossary</a></li>
+</ul>
+
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">jQuery(document).ready(function(){ jQuery('#searchbox').show(0); });</script>
+          {@ product_series @}
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <!-- div class="footer">
+        &copy; Copyright 2011-2015, Percona LLC and/or its affiliates.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div -->
+  </div>
+  </body>

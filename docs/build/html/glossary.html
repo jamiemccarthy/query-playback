@@ -1,0 +1,108 @@
+
+
+
+    <title>Glossary &mdash; Percona Playback Documentation</title>
+    
+  <head>
+    
+    
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Percona Playback Documentation" href="index.html" />
+    <link rel="prev" title="Percona Playback 0.7" href="release-notes/0/0.7.html" /> 
+  </head>
+  <body>
+    <div class="container">  
+
+    <div class="document row">
+      <div class="documentwrapper col-md-9 col-md-push-3">
+    <div class="related row">
+      
+      <ul class="nav nav-pills">
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="release-notes/0/0.7.html" title="Percona Playback 0.7"
+             accesskey="P">previous</a></li>
+        <li><a href="index.html">Percona Playback Docs</a></li> 
+      </ul>
+    </div>
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="glossary">
+<h1>Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h1>
+<dl class="glossary docutils">
+<dt id="term-innodb">InnoDB</dt>
+<dd>Storage engine which provides ACID-compliant transactions and foreign key support, among others improvements over <a class="reference internal" href="#term-myisam"><em class="xref std std-term">MyISAM</em></a>. It is the default engine for <em>MySQL</em> as of the 5.5 series.</dd>
+<dt id="term-myisam">MyISAM</dt>
+<dd>Previous default storage engine for <em>MySQL</em> for versions prior to 5.5. It doesn&#8217;t fully support transactions but in some scenarios may be faster than <a class="reference internal" href="#term-innodb"><em class="xref std std-term">InnoDB</em></a>. Each table is stored on disk in 3 files: <cite>.frm</cite>, <cite>.MYD</cite>, <cite>.MYI</cite></dd>
+<dt id="term-xtradb">XtraDB</dt>
+<dd><em>Percona XtraDB</em> is an enhanced version of the InnoDB storage engine, designed to better scale on modern hardware, and including a variety of other features useful in high performance environments. It is fully backwards compatible, and so can be used as a drop-in replacement for standard InnoDB. More information <a class="reference external" href="http://www.percona.com/docs/wiki/Percona-XtraDB:start">here</a> .</dd>
+</dl>
+</div>
+
+
+          </div>
+        </div>
+    <div class="related row">
+      
+      <ul class="nav nav-pills">
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="release-notes/0/0.7.html" title="Percona Playback 0.7"
+             >previous</a></li>
+        <li><a href="index.html">Percona Playback Docs</a></li> 
+      </ul>
+    </div>
+      </div>
+      <div class="sphinxsidebar  col-md-3 col-md-pull-9">
+        <div class="sphinxsidebarwrapper">
+  
+          {@ product_logo @}          
+
+          {@ product_pdf_download @}
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="release-notes/0/0.7.html"
+                        title="previous chapter">Percona Playback 0.7</a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">jQuery(document).ready(function(){ jQuery('#searchbox').show(0); });</script>
+          {@ product_series @}
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <!-- div class="footer">
+        &copy; Copyright 2011-2015, Percona LLC and/or its affiliates.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div -->
+  </div>
+  </body>

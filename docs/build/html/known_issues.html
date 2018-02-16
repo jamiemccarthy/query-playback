@@ -1,0 +1,133 @@
+
+
+
+    <title>Known Issues &mdash; Percona Playback Documentation</title>
+    
+  <head>
+    
+    
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Percona Playback Documentation" href="index.html" />
+    <link rel="next" title="Frequently Asked Questions" href="faq.html" />
+    <link rel="prev" title="Playback Option Reference" href="pp_option_reference.html" /> 
+  </head>
+  <body>
+    <div class="container">  
+
+    <div class="document row">
+      <div class="documentwrapper col-md-9 col-md-push-3">
+    <div class="related row">
+      
+      <ul class="nav nav-pills">
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="faq.html" title="Frequently Asked Questions"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="pp_option_reference.html" title="Playback Option Reference"
+             accesskey="P">previous</a></li>
+        <li><a href="index.html">Percona Playback Docs</a></li> 
+      </ul>
+    </div>
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="known-issues">
+<h1>Known Issues<a class="headerlink" href="#known-issues" title="Permalink to this headline">¶</a></h1>
+<p>There are a few known issues with <strong class="program">percona-playback</strong> that can
+affect the expected result. Some of these are solvable through various
+work arounds by the user, others only by changing <strong class="program">percona-playback</strong>
+itself. We hope to somewhat adequately address all of these in future releases.</p>
+<div class="section" id="connection-leaks-in-the-playback">
+<h2>Connection Leaks in the Playback<a class="headerlink" href="#connection-leaks-in-the-playback" title="Permalink to this headline">¶</a></h2>
+<p>The query_log plugin suffer from what is known as connection leaks.</p>
+<p>In the case of query_log plugin, when query_log parser meets new thread_id it creates new MySQL thread and sends queries using that thread. When there is a quit command in the query log file for a particular thread_id, then <strong class="program">percona-playback</strong> closes the MySQL connection and terminates the thread. But it can be the case when there are threads in query log without quit command may be due to abnormal session termination (connection break due to session inactivity for example). And this will again lead to connection leaks because such connections won&#8217;t get closed.</p>
+</div>
+<div class="section" id="accurate-mode">
+<h2>Accurate Mode<a class="headerlink" href="#accurate-mode" title="Permalink to this headline">¶</a></h2>
+<p>The option &#8211;query-log-preserve-query-time is enables accurate mode.  Accurate mode does not preserve delays in between queries.  The query_log plugin preserves only query execution time. So &#8211;query-log-preserve-query-time is not completely accurate.</p>
+<p>Note also that accuracy is only with respect to queries executed within a single connection, for example suppose there are two MySQL threads, thread_id 1 and thread_id 2, then in that case accuracy will only deal with executing queries accurately within the context of the threads. So for example if the query log contains an entry first of a select by thread_id 1 and then an insert by thread_id 2, this order will not be guaranteed, and its possible that when <strong class="program">percona-playback</strong> replays the query log the insert by thread_id 2 is done before the select by thread_id 1. Therefore <strong class="program">percona-playback</strong> can only be used for load testing and cannot be used for functional testing as there is no concept of global accuracy.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+    <div class="related row">
+      
+      <ul class="nav nav-pills">
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="faq.html" title="Frequently Asked Questions"
+             >next</a></li>
+        <li class="right" >
+          <a href="pp_option_reference.html" title="Playback Option Reference"
+             >previous</a></li>
+        <li><a href="index.html">Percona Playback Docs</a></li> 
+      </ul>
+    </div>
+      </div>
+      <div class="sphinxsidebar  col-md-3 col-md-pull-9">
+        <div class="sphinxsidebarwrapper">
+  
+          {@ product_logo @}          
+
+          {@ product_pdf_download @}
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Known Issues</a><ul>
+<li><a class="reference internal" href="#connection-leaks-in-the-playback">Connection Leaks in the Playback</a></li>
+<li><a class="reference internal" href="#accurate-mode">Accurate Mode</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="pp_option_reference.html"
+                        title="previous chapter">Playback Option Reference</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="faq.html"
+                        title="next chapter">Frequently Asked Questions</a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">jQuery(document).ready(function(){ jQuery('#searchbox').show(0); });</script>
+          {@ product_series @}
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <!-- div class="footer">
+        &copy; Copyright 2011-2015, Percona LLC and/or its affiliates.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div -->
+  </div>
+  </body>

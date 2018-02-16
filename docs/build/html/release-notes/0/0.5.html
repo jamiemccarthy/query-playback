@@ -1,0 +1,143 @@
+
+
+
+    <title>Percona Playback 0.5 &mdash; Percona Playback Documentation</title>
+    
+  <head>
+    
+    
+    
+    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Percona Playback Documentation" href="../../index.html" />
+    <link rel="up" title="Playback release notes" href="../../release-notes.html" />
+    <link rel="next" title="Percona Playback 0.6" href="0.6.html" />
+    <link rel="prev" title="Percona Playback 0.4" href="0.4.html" /> 
+  </head>
+  <body>
+    <div class="container">  
+
+    <div class="document row">
+      <div class="documentwrapper col-md-9 col-md-push-3">
+    <div class="related row">
+      
+      <ul class="nav nav-pills">
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="0.6.html" title="Percona Playback 0.6"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="0.4.html" title="Percona Playback 0.4"
+             accesskey="P">previous</a></li>
+        <li><a href="../../index.html">Percona Playback Docs</a></li>
+          <li><a href="../../release-notes.html" accesskey="U">Playback release notes</a></li> 
+      </ul>
+    </div>
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="percona-playback-0-5">
+<h1>Percona Playback 0.5<a class="headerlink" href="#percona-playback-0-5" title="Permalink to this headline">¶</a></h1>
+<p>Percona is glad to announce the release of <em>Percona Playback</em> 0.5 on November 26th, 2012. Downloads are available from our download site <a class="reference external" href="http://www.percona.com/downloads/Percona-Playback/Percona-Playback-0.5/">here</a> and <a class="reference internal" href="../../installation.html"><em>Percona Software Repositories</em></a>.</p>
+<p>This release should be considered Alpha quality.</p>
+<div class="section" id="new-features">
+<h2>New features<a class="headerlink" href="#new-features" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li>Reports have been extended and now return the list of queries with a response time longer than the ones run on the original. Additional statistics, like the query types (SELECT, UPDATE,...) with the proportion off faster and slower statement for each categories, has been added as well.</li>
+<li><em>Percona Playback</em> now supports reading the slow query log from standard input (<tt class="docutils literal"><span class="pre">stdin</span></tt>) instead of log file.</li>
+<li>New option <a class="reference internal" href="../../pp_option_reference.html#cmdoption--session-init-query"><em class="xref std std-option">--session-init-query</em></a> has been added. It allows <em>Percona Playback</em> to execute some query just after connection is established. This can be used to initialize some session variables.</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="bugs-fixed">
+<h2>Bugs fixed<a class="headerlink" href="#bugs-fixed" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li>Multi-line queries in the slow query log didn&#8217;t work correctly. Bug fixed <a class="reference external" href="https://bugs.launchpad.net/percona-playback/+bug/1035217">#1035217</a> (<em>Stewart Smith</em>).</li>
+<li>Raw tcpdump format wasn&#8217;t documented. Bug fixed <a class="reference external" href="https://bugs.launchpad.net/percona-playback/+bug/1034527">#1034527</a> (<em>Hrvoje Matijakovic</em>).</li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+
+
+          </div>
+        </div>
+    <div class="related row">
+      
+      <ul class="nav nav-pills">
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="0.6.html" title="Percona Playback 0.6"
+             >next</a></li>
+        <li class="right" >
+          <a href="0.4.html" title="Percona Playback 0.4"
+             >previous</a></li>
+        <li><a href="../../index.html">Percona Playback Docs</a></li>
+          <li><a href="../../release-notes.html" >Playback release notes</a></li> 
+      </ul>
+    </div>
+      </div>
+      <div class="sphinxsidebar  col-md-3 col-md-pull-9">
+        <div class="sphinxsidebarwrapper">
+  
+          {@ product_logo @}          
+
+          {@ product_pdf_download @}
+  <h3><a href="../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Percona Playback 0.5</a><ul>
+<li><a class="reference internal" href="#new-features">New features</a></li>
+<li><a class="reference internal" href="#bugs-fixed">Bugs fixed</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="0.4.html"
+                        title="previous chapter">Percona Playback 0.4</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="0.6.html"
+                        title="next chapter">Percona Playback 0.6</a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">jQuery(document).ready(function(){ jQuery('#searchbox').show(0); });</script>
+          {@ product_series @}
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <!-- div class="footer">
+        &copy; Copyright 2011-2015, Percona LLC and/or its affiliates.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div -->
+  </div>
+  </body>

@@ -1,0 +1,119 @@
+
+
+
+    <title>Query_log plugin &mdash; Percona Playback Documentation</title>
+    
+  <head>
+    
+    
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Percona Playback Documentation" href="index.html" />
+    <link rel="up" title="Percona Playback User Manual" href="manual.html" />
+    <link rel="next" title="Playback Option Reference" href="pp_option_reference.html" />
+    <link rel="prev" title="Percona Playback User Manual" href="manual.html" /> 
+  </head>
+  <body>
+    <div class="container">  
+
+    <div class="document row">
+      <div class="documentwrapper col-md-9 col-md-push-3">
+    <div class="related row">
+      
+      <ul class="nav nav-pills">
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="pp_option_reference.html" title="Playback Option Reference"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="manual.html" title="Percona Playback User Manual"
+             accesskey="P">previous</a></li>
+        <li><a href="index.html">Percona Playback Docs</a></li>
+          <li><a href="manual.html" accesskey="U">Percona Playback User Manual</a></li> 
+      </ul>
+    </div>
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="query-log-plugin">
+<span id="query-log"></span><h1>Query_log plugin<a class="headerlink" href="#query-log-plugin" title="Permalink to this headline">¶</a></h1>
+<p>This plugin parses queries from query log files. It can preserve query execution time with <a class="reference internal" href="pp_option_reference.html#cmdoption--query-log-preserve-query-time"><em class="xref std std-option">--query-log-preserve-query-time</em></a> option. The <a class="reference internal" href="pp_option_reference.html#cmdoption--query-log-read-count"><em class="xref std std-option">--query-log-read-count</em></a> options allows to replay query log file several times (NYI). The difference between this and <a class="reference internal" href="pp_option_reference.html#cmdoption--loop"><em class="xref std std-option">--loop</em></a> options should be that <a class="reference internal" href="pp_option_reference.html#cmdoption--loop"><em class="xref std std-option">--loop</em></a> reports at the end of each execution whereas <a class="reference internal" href="pp_option_reference.html#cmdoption--query-log-read-count"><em class="xref std std-option">--query-log-read-count</em></a> reports once after all executions.</p>
+<p>The example of usage:
+Run percona_playback/test/basic-slow.log on default libmysqlplugin settings:</p>
+<div class="highlight-python"><pre>$ percona_playback --db-plugin=libmysqlclient --query-log-file=./percona_playback/test/basic-slow.log</pre>
+</div>
+<p>The other options description can be found in &#8220;help&#8221; message.</p>
+</div>
+
+
+          </div>
+        </div>
+    <div class="related row">
+      
+      <ul class="nav nav-pills">
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="pp_option_reference.html" title="Playback Option Reference"
+             >next</a></li>
+        <li class="right" >
+          <a href="manual.html" title="Percona Playback User Manual"
+             >previous</a></li>
+        <li><a href="index.html">Percona Playback Docs</a></li>
+          <li><a href="manual.html" >Percona Playback User Manual</a></li> 
+      </ul>
+    </div>
+      </div>
+      <div class="sphinxsidebar  col-md-3 col-md-pull-9">
+        <div class="sphinxsidebarwrapper">
+  
+          {@ product_logo @}          
+
+          {@ product_pdf_download @}
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="manual.html"
+                        title="previous chapter">Percona Playback User Manual</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="pp_option_reference.html"
+                        title="next chapter">Playback Option Reference</a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">jQuery(document).ready(function(){ jQuery('#searchbox').show(0); });</script>
+          {@ product_series @}
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <!-- div class="footer">
+        &copy; Copyright 2011-2015, Percona LLC and/or its affiliates.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div -->
+  </div>
+  </body>

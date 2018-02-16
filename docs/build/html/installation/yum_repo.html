@@ -1,0 +1,173 @@
+
+
+
+    <title>Percona yum Repository &mdash; Percona Playback Documentation</title>
+    
+  <head>
+    
+    
+    
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Percona Playback Documentation" href="../index.html" />
+    <link rel="up" title="Installing Playback from Binaries" href="../installation.html" />
+    <link rel="next" title="Compiling and Installing Playback from Source Code" href="compiling_playback.html" />
+    <link rel="prev" title="Percona apt Repository" href="apt_repo.html" /> 
+  </head>
+  <body>
+    <div class="container">  
+
+    <div class="document row">
+      <div class="documentwrapper col-md-9 col-md-push-3">
+    <div class="related row">
+      
+      <ul class="nav nav-pills">
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="compiling_playback.html" title="Compiling and Installing Playback from Source Code"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="apt_repo.html" title="Percona apt Repository"
+             accesskey="P">previous</a></li>
+        <li><a href="../index.html">Percona Playback Docs</a></li>
+          <li><a href="../installation.html" accesskey="U">Installing Playback from Binaries</a></li> 
+      </ul>
+    </div>
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="percona-yum-repository">
+<h1>Percona <strong class="program">yum</strong> Repository<a class="headerlink" href="#percona-yum-repository" title="Permalink to this headline">¶</a></h1>
+<p>The <em>Percona</em> <strong class="program">yum</strong> repository supports popular <em>RPM</em>-based operating systems, including the <em>Amazon Linux AMI</em>.</p>
+<p>The easiest way to install the <em>Percona Yum</em> repository is to install an <em>RPM</em> that configures <strong class="program">yum</strong> and installs the <a class="reference external" href="http://www.percona.com/downloads/RPM-GPG-KEY-percona">Percona GPG key</a>. You can also do the installation manually.</p>
+<div class="section" id="automatic-installation">
+<h2>Automatic Installation<a class="headerlink" href="#automatic-installation" title="Permalink to this headline">¶</a></h2>
+<p>Execute the following command as a <tt class="docutils literal"><span class="pre">root</span></tt> user, replacing <tt class="docutils literal"><span class="pre">x86_64</span></tt> with <tt class="docutils literal"><span class="pre">i386</span></tt> if you are not running a 64-bit operating system:</p>
+<div class="highlight-python"><pre>$ yum install http://www.percona.com/downloads/percona-release/redhat/0.1-3/percona-release-0.1-3.noarch.rpm</pre>
+</div>
+<p>You should see some output such as the following:</p>
+<div class="highlight-python"><pre>Retrieving http://www.percona.com/downloads/percona-release/redhat/0.1-3/percona-release-0.1-3.noarch.rpm
+Preparing...                ########################################### [100%]
+   1:percona-release        ########################################### [100%]</pre>
+</div>
+<p>The RPMs for the automatic installation are available at <a class="reference external" href="http://www.percona.com/downloads/percona-release/">http://www.percona.com/downloads/percona-release/</a> and include source code.</p>
+</div>
+<div class="section" id="testing-the-repository">
+<h2>Testing The Repository<a class="headerlink" href="#testing-the-repository" title="Permalink to this headline">¶</a></h2>
+<p>Make sure packages are downloaded from the repository, by executing the following command as root:</p>
+<div class="highlight-python"><pre>yum list | grep percona</pre>
+</div>
+<p>You should see output similar to the following:</p>
+<div class="highlight-python"><pre>percona-release.x86_64                     0.0-1                       installed
+...
+Percona-Server-client-51.x86_64            5.1.47-rel11.1.51.rhel5     percona
+Percona-Server-devel-51.x86_64             5.1.47-rel11.1.51.rhel5     percona
+Percona-Server-server-51.x86_64            5.1.47-rel11.1.51.rhel5     percona
+Percona-Server-shared-51.x86_64            5.1.47-rel11.1.51.rhel5     percona
+Percona-Server-test-51.x86_64              5.1.47-rel11.1.51.rhel5     percona
+...
+xtrabackup.x86_64                          1.2-22.rhel5                percona</pre>
+</div>
+</div>
+<div class="section" id="supported-platforms">
+<h2>Supported Platforms<a class="headerlink" href="#supported-platforms" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><tt class="docutils literal"><span class="pre">x86_64</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">i386</span></tt></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="supported-releases">
+<h2>Supported Releases<a class="headerlink" href="#supported-releases" title="Permalink to this headline">¶</a></h2>
+<p>The <em>CentOS</em> repositories should work well with <em>Red Hat Enterprise Linux</em> too, provided that <strong class="program">yum</strong> is installed on the server.</p>
+<ul class="simple">
+<li><em>CentOS</em> 5 and <em>RHEL</em> 5</li>
+<li><em>CentOS</em> 6 and <em>RHEL</em> 6</li>
+<li><em>Amazon Linux AMI</em> (works the same as <em>CentOS</em> 5)</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+    <div class="related row">
+      
+      <ul class="nav nav-pills">
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="compiling_playback.html" title="Compiling and Installing Playback from Source Code"
+             >next</a></li>
+        <li class="right" >
+          <a href="apt_repo.html" title="Percona apt Repository"
+             >previous</a></li>
+        <li><a href="../index.html">Percona Playback Docs</a></li>
+          <li><a href="../installation.html" >Installing Playback from Binaries</a></li> 
+      </ul>
+    </div>
+      </div>
+      <div class="sphinxsidebar  col-md-3 col-md-pull-9">
+        <div class="sphinxsidebarwrapper">
+  
+          {@ product_logo @}          
+
+          {@ product_pdf_download @}
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Percona <strong class="program">yum</strong> Repository</a><ul>
+<li><a class="reference internal" href="#automatic-installation">Automatic Installation</a></li>
+<li><a class="reference internal" href="#testing-the-repository">Testing The Repository</a></li>
+<li><a class="reference internal" href="#supported-platforms">Supported Platforms</a></li>
+<li><a class="reference internal" href="#supported-releases">Supported Releases</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="apt_repo.html"
+                        title="previous chapter">Percona <strong class="program">apt</strong> Repository</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="compiling_playback.html"
+                        title="next chapter">Compiling and Installing Playback from Source Code</a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">jQuery(document).ready(function(){ jQuery('#searchbox').show(0); });</script>
+          {@ product_series @}
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <!-- div class="footer">
+        &copy; Copyright 2011-2015, Percona LLC and/or its affiliates.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div -->
+  </div>
+  </body>
